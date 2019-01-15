@@ -13,7 +13,7 @@ public class BelongToExpression implements Expression {
     @Override
     public boolean interpret(String context) {
 
-        return expressionList.stream().allMatch(s ->s.interpret(context));
+        return expressionList.stream().anyMatch(s ->s.interpret(context));
 
     }
 }

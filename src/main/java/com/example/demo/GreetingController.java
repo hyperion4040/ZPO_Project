@@ -13,29 +13,58 @@ import java.util.Map;
 public class GreetingController {
 
 
+    private Expression isHighSchool;
+    private Expression isUniversityOfTechnology;
+    private boolean isHS;
+    private boolean isUT;
 
-    @GetMapping("/hello")
-    public String getText() {
-        return "cos";
+    @GetMapping("/{symbol:[a-zA-Z]*}")
+    public String getSimple(HttpServletRequest request) {
+        String query = request.getRequestURI().split("/")[1];
+        isHighSchool = InterpreterDemo.isHighSchool();
+        isUniversityOfTechnology = InterpreterDemo.isUniversityOfTechnology();
+        isHS = isHighSchool.interpret(query);
+        isUT = isUniversityOfTechnology.interpret(query);
+        if (isHS) {
+            return new UniversityMaker().printHighSchoolInfo();
+        } else if (isUT) {
+            if (query.contains("universityName")) {
+                return new UniversityMaker().printUniversityOfTechnologyInfo();
+            } else
+                return null;
+        } else
+            return null;
     }
 
-    @GetMapping("/**")
+
+    //    @GetMapping("/{symbolicName:[a-zA-Z]*}={number:[0-9]*}")
+    @GetMapping("/{pattern:[{symbol:[a-zA-Z]*}={symbolTwo:[0-9&]*}]*}")
     public String getReg(HttpServletRequest request) {
 
         String query = request.getRequestURI().split("/")[1];
-      final Map<String, String> map = Splitter.on('&').trimResults().withKeyValueSeparator("=").split(query);
+        final Map<String, String> map = Splitter.on('&').trimResults().withKeyValueSeparator("=").split(query);
 
-//        Map<String,String> mapToCompare = Map.of("ciekawe","1","cios","2","cos","3");
 
-//        boolean t =  mapToCompare.entrySet().containsAll(map.entrySet());
-        Expression isHighSchool = InterpreterDemo.isHighSchool();
+        isHighSchool = InterpreterDemo.isHighSchool();
+        isUniversityOfTechnology = InterpreterDemo.isUniversityOfTechnology();
+        isHS = false;
+        isUT = false;
         for (String s : map.keySet()) {
-            return String.valueOf(isHighSchool.interpret(s));
+            isHS = isHighSchool.interpret(s);
+            isUT = isUniversityOfTechnology.interpret(s);
         }
-            return map.keySet().toString();
-//        return String.valueOf(t);
-//        return map.entrySet().toString();
-//        return new UniversityMaker().printUniversityOfTechnologyInfo();
+        if (isHS) {
+            return new UniversityMaker().printHighSchoolInfo();
+        } else if (isUT) {
+            if (map.containsKey("foundingYear")) {
+
+                return new UniversityMaker().printUniversityOfTechnologyFoundingYear();
+            } else
+                return new UniversityMaker().printUniversityOfTechnologyInfo();
+        } else
+            return null;
+
+
     }
 
 }

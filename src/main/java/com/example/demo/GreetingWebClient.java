@@ -8,18 +8,14 @@ import reactor.core.publisher.Mono;
 public class GreetingWebClient {
     private WebClient client = WebClient.create("http://localhost:8080");
 
-    private Mono<ClientResponse> result = client.get()
-            .uri("/hello")
-            .accept(MediaType.TEXT_PLAIN)
-            .exchange();
 
     private Mono<ClientResponse> responseMono = client.get()
-            .uri("/schoolName=1")
+//            .uri("/universityName=1&foundingYear=1")
+            .uri("/universityName")
             .accept(MediaType.TEXT_PLAIN)
             .exchange();
 
     public String getResult() {
-//        return ">>result= " + result.flatMap(res -> res.bodyToMono(String.class)).block();
         return "Wynik porównania struktur to: " + responseMono.flatMap(
                 res -> res.bodyToMono(String.class)).block();
     }

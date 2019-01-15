@@ -13,5 +13,17 @@ public class DemoApplication {
         System.out.println(gwc.getResult());
     }
 
+
+    /*@Bean
+    public CommandLineRunner demo(StudentRepository universityRepository,StudentRepository highSchoolRepository) {
+        return (args) -> {
+            universityRepository.save(new Student("Adrian","Kozłowski"));
+            universityRepository.save(new Student("Adam","Kozioł"));
+            highSchoolRepository.save(new Student("Adrian","Kozłowski"));
+
+        };
+
+        }*/
+
 }
 
