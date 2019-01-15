@@ -5,4 +5,9 @@ public class HighSchool implements University {
     public String printUniversityInfo() {
         return "This is an info about High School";
     }
+
+    @Override
+    public String printFoundingYear() {
+        return null;
+    }
 }

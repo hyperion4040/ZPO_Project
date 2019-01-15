@@ -18,7 +18,15 @@ public class UniversityMaker {
     }
 
     public String printHighSchoolInfo() {
-        university = universityFactory.getInfo("HC");
+        university = universityFactory.getInfo("HS");
         return university.printUniversityInfo();
     }
+
+    public String printUniversityOfTechnologyFoundingYear() {
+        university = universityFactory.getInfo("UT");
+        return university.printFoundingYear();
+    }
+
+
+
 }
